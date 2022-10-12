@@ -15,10 +15,10 @@ import javax.persistence.MapsId
 
 @Entity(name = "tb_challenges")
 data class Challenge(
-    @JsonIgnore
     @EmbeddedId
     val id: ChallengeKey,
 
+    @JsonIgnore
     @ManyToOne
     @MapsId("studentId")
     @JoinColumn(name = "student_id")
@@ -34,7 +34,7 @@ data class Challenge(
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "start_date_time")
-    val startDateTime: OffsetDateTime,
+    val startDateTime: OffsetDateTime? = null,
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "end_date_time")
@@ -45,5 +45,6 @@ data class Challenge(
 @EqualsAndHashCode
 class ChallengeKey(
     @Column(name = "student_id") val studentId: Long,
+
     @Column(name = "formula_id") val formulaId: Int
 ) : Serializable

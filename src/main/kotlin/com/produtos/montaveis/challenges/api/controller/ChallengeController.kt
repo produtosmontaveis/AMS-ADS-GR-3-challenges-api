@@ -32,22 +32,4 @@ class ChallengeController(
             challengeRepository.findByIdOrNull(ChallengeKey(studentId, formulaId))
         )
     }
-
-    @PostMapping("/{formulaId}")
-    @ResponseStatus(HttpStatus.CREATED)
-    fun createChallenge(@PathVariable studentId: Long, @PathVariable formulaId: Int): ResponseEntity<Challenge> {
-        return if (!studentRepository.existsById(studentId) || !formulaRepository.existsById(formulaId))
-            ResponseEntity.notFound().build()
-        else {
-            val student = studentRepository.findByIdOrNull(studentId)!!
-            val formula = formulaRepository.findByIdOrNull(formulaId)!!
-            val challenge = Challenge(
-                ChallengeKey(studentId, formulaId),
-                student,
-                formula,
-                startDateTime = OffsetDateTime.now()
-            )
-            ResponseEntity.ok(challengeRepository.save(challenge))
-        }
-    }
 }
