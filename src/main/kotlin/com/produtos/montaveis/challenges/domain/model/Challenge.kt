@@ -42,6 +42,8 @@ data class Challenge(
     val endDateTime: OffsetDateTime? = null
 )
 
+
+@Suppress("unused")
 @Embeddable
 @EqualsAndHashCode
 class ChallengeKey(
