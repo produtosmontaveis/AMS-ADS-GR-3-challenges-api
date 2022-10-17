@@ -24,7 +24,6 @@ data class Student(
     @Column(name = "exercises_completed")
     val exercisesCompleted: Int = 0,
 
-    @JsonIgnore
     @OneToMany(mappedBy = "student", cascade = [CascadeType.ALL])
     val challenges: List<Challenge>? = listOf()
 )

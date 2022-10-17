@@ -15,6 +15,7 @@ import javax.persistence.MapsId
 
 @Entity(name = "tb_challenges")
 data class Challenge(
+    @JsonIgnore
     @EmbeddedId
     val id: ChallengeKey,
 
