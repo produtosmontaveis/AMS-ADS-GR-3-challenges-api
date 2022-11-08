@@ -76,7 +76,7 @@ class ChallengeController(
         else {
             val updatedChallenge = challengeRepository
                 .findByIdOrNull(ChallengeKey(studentId, formulaId))?.copy(
-                    endDateTime = OffsetDateTime.now(),
+                    finishDateTime = OffsetDateTime.now(),
                     progressStatus = 100.0
                 )!!
             ResponseEntity.ok(challengeRepository.save(updatedChallenge))

@@ -10,7 +10,7 @@ import javax.persistence.OneToMany
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
-@Entity(name = "tb_formulas")
+@Entity
 data class Formula(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,6 @@ data class Formula(
 
     @NotBlank @Size(max = 30) val name: String,
 
-    @Column(name = "img_url")
     @NotBlank val imgUrl: String,
 
     @JsonIgnore

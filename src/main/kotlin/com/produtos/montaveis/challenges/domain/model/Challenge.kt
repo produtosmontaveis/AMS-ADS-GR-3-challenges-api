@@ -13,7 +13,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.MapsId
 
-@Entity(name = "tb_challenges")
+@Entity
 data class Challenge(
     @JsonIgnore
     @EmbeddedId
@@ -22,24 +22,20 @@ data class Challenge(
     @JsonIgnore
     @ManyToOne
     @MapsId("studentId")
-    @JoinColumn(name = "student_id")
     val student: Student,
 
     @ManyToOne
     @MapsId("formulaId")
-    @JoinColumn(name = "formula_id")
     val formula: Formula,
 
-    @Column(name = "progress_status")
     val progressStatus: Double = 0.0,
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @Column(name = "start_date_time")
     val startDateTime: OffsetDateTime? = null,
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "end_date_time")
-    val endDateTime: OffsetDateTime? = null
+    val finishDateTime: OffsetDateTime? = null
 )
 
 
