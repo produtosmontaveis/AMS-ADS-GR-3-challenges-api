@@ -14,8 +14,8 @@ data class Student(
 
     val level: Int = 0,
 
-    @Column(name = "exercises_completed")
-    val exercisesCompleted: Int = 0,
+    @Column(name = "score")
+    val score: Int = 0,
 
     @OneToMany(mappedBy = "student", cascade = [CascadeType.ALL])
     val challenges: List<Challenge>? = listOf()

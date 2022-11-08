@@ -23,5 +23,7 @@ data class Formula(
 
     @JsonIgnore
     @OneToMany(mappedBy = "formula")
-    val challenges: List<Challenge>? = listOf()
+    val challenges: List<Challenge>? = listOf(),
+
+    val badgeImageUrl: String
 )

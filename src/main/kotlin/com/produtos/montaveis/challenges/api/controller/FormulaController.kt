@@ -33,7 +33,7 @@ class FormulaController(val formulaRepository: FormulaRepository) {
     @PutMapping("/{formulaId}")
     fun updateFormula(@PathVariable formulaId: Int, @RequestBody formula: Formula): ResponseEntity<Formula> {
         return if (formulaRepository.existsById(formulaId)) {
-            val updatedFormula = Formula(formulaId, formula.name, formula.imgUrl)
+            val updatedFormula = formula.copy(id = formulaId)
             ResponseEntity.ok(formulaRepository.save(updatedFormula))
         } else ResponseEntity.notFound().build()
     }

@@ -5,8 +5,8 @@ import com.produtos.montaveis.challenges.domain.model.ChallengeKey
 import com.produtos.montaveis.challenges.domain.repository.ChallengeRepository
 import com.produtos.montaveis.challenges.domain.repository.FormulaRepository
 import com.produtos.montaveis.challenges.domain.repository.StudentRepository
+import com.produtos.montaveis.challenges.domain.service.ChallengeService
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.OffsetDateTime
@@ -16,7 +16,8 @@ import java.time.OffsetDateTime
 class ChallengeController(
     val challengeRepository: ChallengeRepository,
     val studentRepository: StudentRepository,
-    val formulaRepository: FormulaRepository
+    val formulaRepository: FormulaRepository,
+    val challengeService: ChallengeService
 ) {
 
     @GetMapping
@@ -31,5 +32,54 @@ class ChallengeController(
         else ResponseEntity.ok(
             challengeRepository.findByIdOrNull(ChallengeKey(studentId, formulaId))
         )
+    }
+
+    @PutMapping("/{formulaId}/start")
+    fun startChallenge(
+        @PathVariable studentId: Long,
+        @PathVariable formulaId: Int
+    ): ResponseEntity<Challenge> {
+        return if (!studentRepository.existsById(studentId) || !formulaRepository.existsById(formulaId))
+            ResponseEntity.notFound().build()
+        else {
+            val updatedChallenge = challengeRepository
+                .findByIdOrNull(ChallengeKey(studentId, formulaId))?.copy(
+                    startDateTime = OffsetDateTime.now())!!
+            ResponseEntity.ok(challengeRepository.save(updatedChallenge))
+        }
+    }
+
+    @PutMapping("/{formulaId}/update-status")
+    fun updateProgress(
+        @PathVariable studentId: Long,
+        @PathVariable formulaId: Int,
+        @RequestBody progress: Double
+    ): ResponseEntity<Challenge> {
+        return if (!studentRepository.existsById(studentId) || !formulaRepository.existsById(formulaId))
+            ResponseEntity.notFound().build()
+        else {
+            val updatedChallenge = challengeRepository
+                .findByIdOrNull(ChallengeKey(studentId, formulaId))?.copy(
+                    progressStatus = progress
+                )!!
+            ResponseEntity.ok(challengeRepository.save(updatedChallenge))
+        }
+    }
+
+    @PutMapping("/{formulaId}/end")
+    fun endChallenge(
+        @PathVariable studentId: Long,
+        @PathVariable formulaId: Int
+    ): ResponseEntity<Challenge> {
+        return if (!studentRepository.existsById(studentId) || !formulaRepository.existsById(formulaId))
+            ResponseEntity.notFound().build()
+        else {
+            val updatedChallenge = challengeRepository
+                .findByIdOrNull(ChallengeKey(studentId, formulaId))?.copy(
+                    endDateTime = OffsetDateTime.now(),
+                    progressStatus = 100.0
+                )!!
+            ResponseEntity.ok(challengeRepository.save(updatedChallenge))
+        }
     }
 }

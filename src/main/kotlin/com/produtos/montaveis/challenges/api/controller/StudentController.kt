@@ -34,7 +34,7 @@ class StudentController(val studentRepository: StudentRepository, val challengeS
     @PutMapping("/{studentId}")
     fun updateStudent(@PathVariable studentId: Long, @RequestBody student: Student): ResponseEntity<Student> {
         return if (studentRepository.existsById(studentId)) {
-            val updatedStudent = Student(studentId, student.name, student.level, student.exercisesCompleted)
+            val updatedStudent = Student(studentId, student.name, student.level, student.score)
             ResponseEntity.ok(studentRepository.save(updatedStudent))
         } else ResponseEntity.notFound().build()
     }
