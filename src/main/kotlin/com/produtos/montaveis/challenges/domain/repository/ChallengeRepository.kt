@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ChallengeRepository : JpaRepository<Challenge, ChallengeKey> {
 
-    @Query("SELECT * FROM challenge WHERE student_id = ?1", nativeQuery = true)
+    @Query("SELECT * FROM challenge WHERE student_id = ?1 ORDER BY formula_id", nativeQuery = true)
     fun findAllByStudentId(studentId: Long): List<Challenge>?
 }

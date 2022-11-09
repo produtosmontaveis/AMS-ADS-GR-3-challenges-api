@@ -66,7 +66,7 @@ class ChallengeController(
         }
     }
 
-    @PutMapping("/{formulaId}/end")
+    @PutMapping("/{formulaId}/finish")
     fun endChallenge(
         @PathVariable studentId: Long,
         @PathVariable formulaId: Int
@@ -79,6 +79,11 @@ class ChallengeController(
                     finishDateTime = OffsetDateTime.now(),
                     progressStatus = 100.0
                 )!!
+            val student = studentRepository.findById(studentId).orElseThrow()
+                .let {
+                    it.copy(level = it.level + 1, score = updatedChallenge.formula.id * 100)
+                }
+            studentRepository.save(student)
             ResponseEntity.ok(challengeRepository.save(updatedChallenge))
         }
     }

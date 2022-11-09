@@ -1,5 +1,6 @@
 package com.produtos.montaveis.challenges.domain.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
@@ -16,6 +17,7 @@ data class Student(
 
     val score: Int = 0,
 
+    @JsonIgnore
     @OneToMany(mappedBy = "student", cascade = [CascadeType.ALL])
     val challenges: List<Challenge>? = listOf()
 )
